@@ -1,83 +1,101 @@
 package pbo.f01.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import java.util.*;
 
-@Entity	
-@Table(name = "STUDENTS")
+import javax.persistence.*;
+
+@Entity
+@Table(name = "Students")
 public class Student {
+
     @Id
-    @Column(name = "id", nullable = false, length = 255)
-    private String id;
-    @Column(name = "name", nullable = false, length = 255)
+    @Column(name="Id", nullable = false,length = 255)
+    private String Id;
+    @Column(name="name", nullable = false,length = 255)
     private String name;
-    @Column(name = "entrance_year", nullable = false, length = 255)
-    private String entranceYear;
-    @Column(name = "gender", nullable = false, length = 255)
+    @Column(name="EntranceYear", nullable = false,length = 255)
+    private String EntranceYear;
+    @Column(name="gender", nullable = false,length = 255)
     private String gender;
 
-    @ManyToOne
-    private Dorm dorm;
-    
-    public Student() {
-        this.id = "";
-        this.name = "";
-        this.entranceYear = "";
-        this.gender = "";
+    @ManyToOne(targetEntity=Dorm.class, cascade = CascadeType.ALL)
+    @JoinTable(name = "student_dorm", joinColumns = @JoinColumn(name = "dorm_Id", referencedColumnName = "Id"), 
+    inverseJoinColumns = @JoinColumn(name = "dorm_name", referencedColumnName = "name"))
+    private List<Dorm> dorms = new ArrayList<>();
+
+    public Student(){
+
+     }
+
+    public Student(String Id, String name, String EntranceYear,String gender){
+        this.Id=Id;
+        this.name=name;
+        this.EntranceYear=EntranceYear;
+        this.gender=gender;
+
     }
 
-    public Student(String id, String name, String entranceYear, String gender) {
-        this.id = id;
-        this.name = name;
-        this.entranceYear = entranceYear;
-        this.gender = gender;
+    public Student(String Id, String name, String EntranceYear, String gender,List<Dorm> dorms){
+        this.Id=Id;
+        this.name=name;
+        this.EntranceYear= EntranceYear;
+        this.gender=gender;
+        this.dorms=dorms;
     }
-
-    public String getId() {
-        return this.id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
+   
+    public String getName(){
         return this.name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getId(){
+        return this.Id;
     }
 
-    public String getEntranceYear() {
-        return this.entranceYear;
-    }
-
-    public void setEntranceYear(String entranceYear) {
-        this.entranceYear = entranceYear;
-    }
-
-    public String getGender() {
+    public String getGender(){
         return this.gender;
     }
 
-    public void setGender(String gender) {
+    public String getEntranceYear(){
+        return this.EntranceYear;
+    }
+
+    public void setId(String Id){
+        this.Id = Id;
+    }
+
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public void setGender(String gender){
         this.gender = gender;
     }
 
-    public Dorm getDorm() {
-        return this.dorm;
+    public void setEntranceYear(String EntranceYear){
+        this.EntranceYear= EntranceYear;
     }
 
-    public void setDorm(Dorm dorm) {
-        this.dorm = dorm;
+
+    public List<Dorm> getDorms(){
+        return this.dorms;
+    }
+
+    public void setDorms(List<Dorm> dorms){
+
+        this.dorms= dorms;
     }
 
     @Override
-    public String toString() {
-        return id + "|" + name + "|" + entranceYear;
-    }    
+    public String toString(){
+        return Id +"|"+ name + "|" + EntranceYear;
+    }
+
+
+
+
+
+
+    
 }
+
+    
